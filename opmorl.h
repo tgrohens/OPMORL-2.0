@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <time.h>
 #include <ncurses.h>
@@ -21,3 +22,5 @@
 
 void init_ncurses();
 void exit_ncurses();
+
+int pline(char *);

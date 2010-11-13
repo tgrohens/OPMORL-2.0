@@ -11,10 +11,12 @@
 
 int main(void) {
 	init_ncurses();
-	attron(A_BLINK);
-	printw("hello");
-	box(stdscr, 3, 8);
-	getch();
+	
+	char str[] = "Hello ! I am the Lizard King !";
+	
+	pline(str);
+	
+	while (getch() != 'q');
 	exit_ncurses();
 	return 0;
 }

@@ -1,0 +1,5 @@
+build
+*OPMORL*
+!*.c
+!*.h
+.DS_Store
