@@ -10,6 +10,11 @@
 #include "opmorl.h"
 
 int main(void) {
-	printf("Welcome to OPMORL 2.0 !\n");
+	init_ncurses();
+	attron(A_BLINK);
+	printw("hello");
+	box(stdscr, 3, 8);
+	getch();
+	exit_ncurses();
 	return 0;
 }

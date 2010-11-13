@@ -15,4 +15,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-#include <curses.h>
+#include <ncurses.h>
+
+/* Prototypes */
+
+void init_ncurses();
+void exit_ncurses();
