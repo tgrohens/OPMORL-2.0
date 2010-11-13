@@ -2,6 +2,5 @@
 #include <curses.h>
 
 int main (int argc, const char * argv[]) {
-    printf("Welcome to OPMORL 2.0 !\n");
-    return 0;
+    return printf("Welcome to OPMORL 2.0 !\n");
 }
