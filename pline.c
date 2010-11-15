@@ -11,22 +11,28 @@
 
 #include "opmorl.h"
 
-int find_spaces_backwards(char *str) {
-	int len = strlen(str);
-	int i;
-	for (i = len-1; i >= 0; i--)
-		if (str[i] == ' ')
-			return i;
-	return -1;
-}
 
-int pline(char * str) { /* Not yet with varargs, to be implemented later */
+/* Little bug here : "--More--" stuff doesn't go to the space and overlaps on the second line */
+
+int pline(char * str) { /* Not yet with varargs, to be implemented later */ /* This blocks until everything has been displayed */
 	int len = strlen(str);
-	if (len >= getmaxx(stdscr)) {
-		int lenOK = find_spaces_backwards(str);
-		if (len-lenOK >= strlen("--More--")) {
-			return mvprintw(0, 0, str);
-		}
+	if (len > getmaxx(stdscr)) {
+		char *more = "--More--";
+		int lenOk = len-1;
+		while (str[lenOk] != ' ' && len-lenOk < 8)
+			lenOk--;
+		char *newStr = strdup(&str[lenOk]);
+		str[lenOk-1] = '\0';
+		mvprintw(0, 0, strcat(str, more));
+		while (getch() != '\n');
+		pline(newStr);
+		free(newStr);
+	} else {
+		char *fill = malloc(sizeof(char)*(getmaxx(stdscr)+1));
+		memset(fill, ' ', getmaxx(stdscr));
+		mvprintw(0, 0, fill);
+		mvprintw(0, 0, str);
 	}
+
 	return 42; /* Temporary */
 }

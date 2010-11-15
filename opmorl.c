@@ -12,11 +12,11 @@
 int main(void) {
 	init_ncurses();
 	
-	char str[] = "Hello ! I am the Lizard King !";
-	
-	pline(str);
+	char str[] = "Hello ! I am the Lizard King ! I come here to destroy thee and thy minions !!1!!!";
+	mvprintw(getmaxy(stdscr)-1, 10, "%d", pline(str));
 	
 	while (getch() != 'q');
+	
 	exit_ncurses();
 	return 0;
 }
