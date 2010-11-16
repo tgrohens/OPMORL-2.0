@@ -7,34 +7,31 @@
  *
  */
 
-/* Print a line on top of the terminal (see schema) */
+/* Print a line on top of the terminal */
 
 #include "opmorl.h"
 
-
-/* Little bug here : "--More--" stuff doesn't go to the space and overlaps on the second line */
-
 int pline(char * str) { /* Not yet with varargs, to be implemented later */ /* This blocks until everything has been displayed */
-	int len = strlen(str), termLen = getmaxx(stdscr);
+	int len = strlen(str), termLen = getmaxx(stdscr), retval;
 	if (len > termLen) {
 		char *more = "--More--";
 		int lenOk = len-1;
-		while (str[lenOk] != ' ' && len-lenOk < 9)
+		while (str[lenOk] != ' ' && len-lenOk < 8) /* Here the bug */
 			lenOk--;
 		lenOk++;
 		char *newStr = strdup(&str[lenOk]);
 		str[lenOk-1] = '\0';
-		mvprintw(0, 0, strcat(str, more));
+		retval = mvprintw(0, 0, strcat(str, more));
 		while (getch() != '\n');
-		pline(newStr);
+		retval += pline(newStr);
 		free(newStr);
 	} else {
 		char *fill = malloc(sizeof(char)*termLen+1);
 		memset(fill, ' ', termLen);
 		fill[termLen] = '\0';
 		mvprintw(0, 0, fill);
-		mvprintw(0, 0, str);
+		retval = mvprintw(0, 0, str);
 	}
 
-	return 42; /* Temporary */
+	return retval;
 }
