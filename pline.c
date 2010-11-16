@@ -15,12 +15,13 @@
 /* Little bug here : "--More--" stuff doesn't go to the space and overlaps on the second line */
 
 int pline(char * str) { /* Not yet with varargs, to be implemented later */ /* This blocks until everything has been displayed */
-	int len = strlen(str);
-	if (len > getmaxx(stdscr)) {
+	int len = strlen(str), termLen = getmaxx(stdscr);
+	if (len > termLen) {
 		char *more = "--More--";
 		int lenOk = len-1;
-		while (str[lenOk] != ' ' && len-lenOk < 8)
+		while (str[lenOk] != ' ' && len-lenOk < 9)
 			lenOk--;
+		lenOk++;
 		char *newStr = strdup(&str[lenOk]);
 		str[lenOk-1] = '\0';
 		mvprintw(0, 0, strcat(str, more));
@@ -28,8 +29,9 @@ int pline(char * str) { /* Not yet with varargs, to be implemented later */ /* T
 		pline(newStr);
 		free(newStr);
 	} else {
-		char *fill = malloc(sizeof(char)*(getmaxx(stdscr)+1));
-		memset(fill, ' ', getmaxx(stdscr));
+		char *fill = malloc(sizeof(char)*termLen+1);
+		memset(fill, ' ', termLen);
+		fill[termLen] = '\0';
 		mvprintw(0, 0, fill);
 		mvprintw(0, 0, str);
 	}
