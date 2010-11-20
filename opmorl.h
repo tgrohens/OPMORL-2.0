@@ -20,7 +20,11 @@
 
 /* Structs */
 
+extern enum Otype; /* Object type */
 extern struct Object;
+
+extern enum Mtype; /* Monster type */
+extern struct Monster;
 
 /* Prototypes */
 
