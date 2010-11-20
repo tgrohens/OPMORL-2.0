@@ -18,6 +18,10 @@
 #include <time.h>
 #include <ncurses.h>
 
+/* Structs */
+
+extern struct Object;
+
 /* Prototypes */
 
 void init_ncurses();
