@@ -9,14 +9,19 @@
 
 #include "opmorl.h"
 
+#define init_game()
+#define exit_game()
+
 int main(void) {
 	init_ncurses();
-	
-	char str[] = "Hello ! I am the Lizard King ! I come here to destroy thee and thy minions !!1!!!";
-	mvprintw(getmaxy(stdscr)-1, 10, "%d", pline(str));
-	
-	while (getch() != 'q');
-	
+	init_game();
+	game_loop();
+	exit_game();
 	exit_ncurses();
 	return 0;
+}
+
+void game_loop() {
+	display_map();
+	getch();
 }

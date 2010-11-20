@@ -9,17 +9,4 @@
 
 /* Same remarks apply for monsters that the ones in object.c */
 
-typedef enum {
-	EMPTY, FOR, NOW
-} Mtype;
-
-typedef struct Monster {
-	Mtype type;
-	
-	char name[50];
-	
-	int posx, posy, level;
-	int attack;
-	int life_points;
-	int flags; /* Such as invisible, flying ... */
-} Monster;
+#include "opmorl.h"
