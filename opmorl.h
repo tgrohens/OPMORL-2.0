@@ -28,6 +28,8 @@
 #define VERSION 0.01
 #define STRING_V "OPMORL 2 prealpha"
 
+#define RODNEY_COLOR 1
+
 /* Structs */
 
 typedef enum {
@@ -64,8 +66,29 @@ typedef struct Monster {
 } Monster;
 
 typedef enum {
-	T_WALL, T_CORRIDOR, T_DOOR, T_GROUND, T_STAIRS
+	T_WALL, T_CORRIDOR, T_DOOR, T_FLOOR, T_STAIRS
 } Tiletype;
+
+typedef enum {
+	C_SAMURAI, C_WARRIOR, C_ARCHER
+} PClass;
+
+typedef enum {
+	R_HUMAN, R_ELF, R_GNOME
+} Race;
+
+typedef struct Player {
+	PClass pclass;
+	Race race;
+	int posx, posy; /* Position */
+	int explevel, exp; /* Experience stuff */
+	int hp, max_hp;
+	
+	int dexterity, strength, constitution, intelligence, wisdom, charisma; /* Stats */
+	
+	Object inventory[52];
+	int gold;
+} Player;
 
 /* Prototypes */
 
@@ -75,11 +98,19 @@ void game_loop();
 void exit_game();
 void exit_ncurses();
 
-void create_map();
+void create_lvl();
 
-int pline(char *);
+void get_input();
+
+int pline(char *, int);
+void display_everything();
 void display_map();
+
+int rand_int(int, int);
+
+void move_rodney(int, int);
 
 /* Globals */
 
-Tiletype map[21][80];
+Tiletype lvl_map[21][80];
+Player rodney;
