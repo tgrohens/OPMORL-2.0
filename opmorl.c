@@ -10,7 +10,8 @@
 #include "opmorl.h"
 
 int main(void) {
-	init_ncurses();
+	init_ncurses();	
+	mvprintw(11, 30, "Welcome to OPMORL 2.0");
 	init_game();
 	game_loop();
 	exit_game();

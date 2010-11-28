@@ -16,10 +16,15 @@ void init_ncurses() {
 	raw();
 	keypad(stdscr, TRUE);
 	noecho();
+#ifdef COLOR
+	init_colors();
+#endif
+}
+
+void init_colors() {
 	start_color();
-	mvprintw(11, 30, "Welcome to OPMORL 2.0");
-	/* Color stuff */
-	init_pair(RODNEY_COLOR, 7, 0);
+	use_default_colors();
+	init_pair(RODNEY_COLOR, COLOR_WHITE, DEFAULT_BACKCOLOR);
 }
 
 void exit_ncurses() {
@@ -28,5 +33,5 @@ void exit_ncurses() {
 
 
 void exit_game() {
-	
+	mvprintw(0, 0, "Goodbye.");
 }

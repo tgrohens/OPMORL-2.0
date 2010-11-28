@@ -24,7 +24,7 @@ void get_input() {
 		case 'l':
 			move_rodney(rodney.posx+1, rodney.posy);
 			break;
-		case 'Q':
+		case 'q':
 			exit_game();
 			exit_ncurses();
 			exit(0);
@@ -59,11 +59,14 @@ int pline(char * str, int stuff_comes_after) { /* Not yet with varargs, to be im
 
 void display_everything() {
 	display_map();
-/*	display_stats(); */
+/*	display_stats(); */ /* The stuff like health points, level et alii */
 }
 
 void display_map() {
 	int i, j;
+#ifdef COLOR
+	attron(COLOR_PAIR(0));
+#endif
 	for (i = 1; i < 22; i++) { /* First line is reserved */
 		for (j = 0; j < 80; j++) {
 			switch (lvl_map[i-1][j]) {
@@ -86,11 +89,18 @@ void display_map() {
 			}
 		}
 	}
+#ifdef COLOR
+	attroff(COLOR_PAIR(0));
+#endif
 	/* Then, print objects on top of this and then monsters */
-	attron(COLOR_PAIR(1));
+#ifdef COLOR
+	attron(COLOR_PAIR(RODNEY_COLOR));
+#endif
 	attron(A_BOLD);
 	mvaddch(rodney.posy, rodney.posx, '@');
 	attroff(A_BOLD);
-	attroff(COLOR_PAIR(1));
+#ifdef COLOR
+	attroff(COLOR_PAIR(RODNEY_COLOR));
+#endif
 	move(rodney.posy, rodney.posx);
 }

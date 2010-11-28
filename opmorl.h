@@ -28,7 +28,13 @@
 #define VERSION 0.01
 #define STRING_V "OPMORL 2 prealpha"
 
+#define COLOR
+
+#ifdef COLOR
 #define RODNEY_COLOR 1
+#define DEFAULT_BACKCOLOR -1
+#define DEFAULT_FORECOLOR -1
+#endif
 
 /* Structs */
 
@@ -48,6 +54,8 @@ typedef struct Object {
 	//	Effect effect; /* For potions */
 	int shots_left; /* For wands */
 	int flags; /* Such as invisible... */
+	
+	int color; /* to be used with COLOR_PAIR(color) */
 } Object;
 
 typedef enum {
@@ -63,6 +71,7 @@ typedef struct Monster {
 	int attack;
 	int life_points;
 	int flags; /* Such as invisible, flying ... */
+	int color; /* to be used with COLOR_PAIR(color) */
 } Monster;
 
 typedef enum {
@@ -94,6 +103,7 @@ typedef struct Player {
 
 void init_ncurses();
 void init_game();
+void init_colors();
 void game_loop();
 void exit_game();
 void exit_ncurses();
