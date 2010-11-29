@@ -7,6 +7,8 @@
  *
  */
 
-/* Same remarks apply for monsters that the ones in object.c */
+/* Same remarks apply for monsters that the ones in object.c 
+ * No way. You dont need the player to hold monsters thus you only need 
+ */
 
 #include "opmorl.h"

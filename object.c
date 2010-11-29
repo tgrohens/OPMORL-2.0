@@ -7,9 +7,6 @@
  *
  */
 
-/* WE STILL HAVE TO CHOOSE HOW TO IMPLEMENT THE CHAINED LIST */
-
-/* I think we should have a global chained list for objects + one for objects in rodney's inventory *
- * We'll see later whether monsters have objects too, and how we deal with it						*/
+/* Ok so now we shall use 1 list for the world and one array for the inventory (for letters, it is awesomer) */
 
 #include "opmorl.h"

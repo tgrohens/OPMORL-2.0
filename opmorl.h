@@ -17,26 +17,31 @@
 #include <math.h>
 #include <time.h>
 
-#ifdef _WIN32
-#include <conio.h>
-#else
 #include <ncurses.h>
-#endif
 
 #define DEBUG
 
 #define VERSION 0.01
-#define STRING_V "OPMORL 2 prealpha"
+#define STRING_V "2 prealpha"
 
 #define COLOR
 
 #ifdef COLOR
-#define RODNEY_COLOR 1
 #define DEFAULT_BACKCOLOR -1
 #define DEFAULT_FORECOLOR -1
 #endif
 
+#define LEVELS 25
+
 /* Structs */
+
+
+typedef enum {
+	CLR_DEFAULT, CLR_WHITE /* COLOR_PAIR(0) is the default back/fore ground colors */
+} Color;
+/* Here we have stuff like CLR_ORANGE or whatever, that we have initialized in init_color, and then we	*
+ * just have, before printing a monster/object, to call attron(COLOR_PAIR(obj->color)); and attroff().	*/
+
 
 typedef enum {
 	O_SWORD, O_SHIELD, O_POTION, O_WAND, O_RING, O_BODY_ARMOR, O_HELM, O_FOOD, O_SCROLL /* We are free not to implement all of them right now */
@@ -55,7 +60,9 @@ typedef struct Object {
 	int shots_left; /* For wands */
 	int flags; /* Such as invisible... */
 	
-	int color; /* to be used with COLOR_PAIR(color) */
+	Color color; /* to be used with COLOR_PAIR(color) */
+	
+	struct Object *next; /* Chained list stuff */
 } Object;
 
 typedef enum {
@@ -71,32 +78,30 @@ typedef struct Monster {
 	int attack;
 	int life_points;
 	int flags; /* Such as invisible, flying ... */
-	int color; /* to be used with COLOR_PAIR(color) */
+	Color color; /* to be used with COLOR_PAIR(color) */
+	
+	struct Monster *next; /* Chained list stuff */
 } Monster;
 
 typedef enum {
-	T_WALL, T_CORRIDOR, T_DOOR, T_FLOOR, T_STAIRS
+	T_WALL, T_CORRIDOR, T_OPEN_DOOR, T_CLOSED_DOOR, T_FLOOR, T_STAIRS
 } Tiletype;
 
 typedef enum {
 	C_SAMURAI, C_WARRIOR, C_ARCHER
 } PClass;
 
-typedef enum {
-	R_HUMAN, R_ELF, R_GNOME
-} Race;
-
 typedef struct Player {
 	PClass pclass;
-	Race race;
 	int posx, posy; /* Position */
 	int explevel, exp; /* Experience stuff */
 	int hp, max_hp;
-	
+	int level; /* The depth in the dungeon or whatever you may call it */
 	int dexterity, strength, constitution, intelligence, wisdom, charisma; /* Stats */
 	
-	Object inventory[52];
+	Object inventory[52]; 
 	int gold;
+	Color color;
 } Player;
 
 /* Prototypes */
@@ -122,5 +127,8 @@ void move_rodney(int, int);
 
 /* Globals */
 
-Tiletype lvl_map[21][80];
+Tiletype lvl_map[LEVELS][21][80];
 Player rodney;
+
+void *o_list;
+void *m_list;

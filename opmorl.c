@@ -11,7 +11,7 @@
 
 int main(void) {
 	init_ncurses();	
-	mvprintw(11, 30, "Welcome to OPMORL 2.0");
+	mvprintw(11, 20, "Welcome to OPMORL " STRING_V);
 	init_game();
 	game_loop();
 	exit_game();
@@ -28,7 +28,6 @@ void game_loop() {
 
 void init_game() {
 	rodney.pclass = C_WARRIOR;
-	rodney.race = R_HUMAN;
 	rodney.gold = rodney.exp = 0;
 	rodney.explevel = 1;
 	rodney.hp = rodney.max_hp = rand_int(12, 18);
@@ -39,5 +38,7 @@ void init_game() {
 	rodney.wisdom = rand_int(12, 18);
 	rodney.posx = rand_int(1, 78);
 	rodney.posy = rand_int(1, 19);
-	create_lvl();
+	rodney.color = CLR_WHITE;
+	rodney.level = 1;
+	create_lvl(0);
 }

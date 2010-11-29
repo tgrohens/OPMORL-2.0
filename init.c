@@ -24,7 +24,8 @@ void init_ncurses() {
 void init_colors() {
 	start_color();
 	use_default_colors();
-	init_pair(RODNEY_COLOR, COLOR_WHITE, DEFAULT_BACKCOLOR);
+	init_pair(CLR_WHITE, COLOR_WHITE, DEFAULT_BACKCOLOR); /* broken by the enum, wtf */
+	/* et aliis coloris */
 }
 
 void exit_ncurses() {
@@ -34,4 +35,5 @@ void exit_ncurses() {
 
 void exit_game() {
 	mvprintw(0, 0, "Goodbye.");
+	getch();
 }

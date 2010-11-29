@@ -69,10 +69,14 @@ void display_map() {
 #endif
 	for (i = 1; i < 22; i++) { /* First line is reserved */
 		for (j = 0; j < 80; j++) {
-			switch (lvl_map[i-1][j]) {
-				case T_DOOR:
+			switch (lvl_map[rodney.level-1][i-1][j]) {
+				case T_CLOSED_DOOR:
 					mvaddch(i, j, '+');
 					break;
+				case T_OPEN_DOOR:
+					mvaddch(i, j, '-');
+					break;
+
 				case T_CORRIDOR:
 					mvaddch(i, j, '=');
 					break;
@@ -94,13 +98,13 @@ void display_map() {
 #endif
 	/* Then, print objects on top of this and then monsters */
 #ifdef COLOR
-	attron(COLOR_PAIR(RODNEY_COLOR));
+	attron(COLOR_PAIR(rodney.color));
 #endif
 	attron(A_BOLD);
-	mvaddch(rodney.posy, rodney.posx, '@');
+	(void)mvaddch(rodney.posy, rodney.posx, '@');
 	attroff(A_BOLD);
 #ifdef COLOR
-	attroff(COLOR_PAIR(RODNEY_COLOR));
+	attroff(COLOR_PAIR(rodney.color));
 #endif
 	move(rodney.posy, rodney.posx);
 }
