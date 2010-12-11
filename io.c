@@ -33,7 +33,7 @@ void get_input() {
 	}
 }
 
-int pline(char * str, int stuff_comes_after) { /* Not yet with varargs, to be implemented later */ /* This blocks until everything has been displayed */
+int pline(char * str) { /* CRAPPY */
 	int len = strlen(str), termLen = getmaxx(stdscr), retval;
 	if (len > termLen) {
 		char *more = "--More--";
@@ -45,7 +45,7 @@ int pline(char * str, int stuff_comes_after) { /* Not yet with varargs, to be im
 		str[lenOk-1] = '\0';
 		retval = mvprintw(0, 0, strcat(str, more));
 		while (getch() != '\n');
-		retval += pline(newStr, 42);
+		retval += pline(newStr);
 		free(newStr);
 	} else {
 		char *fill = malloc(sizeof(char)*termLen+1);
@@ -64,9 +64,9 @@ void display_everything() {
 
 void display_map() {
 	int i, j;
-#ifdef COLOR
-	attron(COLOR_PAIR(0));
-#endif
+	Object *obj = o_list;
+	Monster *mon = m_list;
+	attron(COLOR_PAIR(DEFAULT));
 	for (i = 1; i < 22; i++) { /* First line is reserved */
 		for (j = 0; j < 80; j++) {
 			switch (lvl_map[rodney.level-1][i-1][j]) {
@@ -93,18 +93,30 @@ void display_map() {
 			}
 		}
 	}
-#ifdef COLOR
-	attroff(COLOR_PAIR(0));
-#endif
-	/* Then, print objects on top of this and then monsters */
-#ifdef COLOR
+
+	attroff(COLOR_PAIR(DEFAULT));
+	/* Objects */
+	if (o_list)
+		do {
+			attron(COLOR_PAIR(obj->color));
+			(void)mvaddch(obj->posy, obj->posx, obj->symbol);
+			attroff(COLOR_PAIR(obj->color));
+		} while ((obj = obj->next));
+	
+	/* Monsters */
+	if (m_list)
+		do {
+			attron(COLOR_PAIR(mon->color));
+			(void)mvaddch(mon->posy, mon->posx, mon->symbol);
+			attroff(COLOR_PAIR(mon->color));
+		} while ((mon = mon->next));
+	
+	/* Rodney */
 	attron(COLOR_PAIR(rodney.color));
-#endif
 	attron(A_BOLD);
 	(void)mvaddch(rodney.posy, rodney.posx, '@');
 	attroff(A_BOLD);
-#ifdef COLOR
 	attroff(COLOR_PAIR(rodney.color));
-#endif
+
 	move(rodney.posy, rodney.posx);
 }

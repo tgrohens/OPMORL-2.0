@@ -58,7 +58,7 @@ void rm_mon_at(int x, int y, int level) {
 }
 
 void rm_obj_at(int x, int y, int level) {
-	Object *obj = m_list;
+	Object *obj = o_list;
 	if (obj == NULL) {
 		return;
 	}
@@ -76,3 +76,25 @@ void rm_obj_at(int x, int y, int level) {
 		}
 	}
 }
+
+Monster *find_mon_at(int x, int y, int level) {
+	Monster *mon = m_list;
+	if (!mon)
+		return NULL; /* Be careful with that one ! */
+	do {
+		if (mon->posx == x && mon->posy == y && mon->level == level)
+			return mon;
+	} while ((mon = mon->next));
+	return NULL;
+}
+
+Object *find_obj_at(int x, int y, int level) {
+	Object *obj = o_list;
+	if (!obj)
+		return NULL; /* Be careful with that one ! */
+	do {
+		if (obj->posx == x && obj->posy == y && obj->level == level)
+			return obj;
+		} while ((obj = obj->next));
+	return NULL;
+	}

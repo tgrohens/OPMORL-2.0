@@ -11,7 +11,6 @@
 
 int main(void) {
 	init_ncurses();	
-	mvprintw(11, 20, "Welcome to OPMORL " STRING_V);
 	init_game();
 	game_loop();
 	exit_game();

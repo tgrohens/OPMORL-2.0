@@ -24,12 +24,13 @@
 #define VERSION 0.01
 #define STRING_V "2 prealpha"
 
-#define COLOR
 
-#ifdef COLOR
+
+
+#define DEFAULT 0
 #define DEFAULT_BACKCOLOR -1
 #define DEFAULT_FORECOLOR -1
-#endif
+
 
 #define LEVELS 25
 
@@ -37,14 +38,23 @@
 
 
 typedef enum {
-	CLR_DEFAULT, CLR_WHITE /* COLOR_PAIR(0) is the default back/fore ground colors */
+	CLR_DEFAULT, /* COLOR_PAIR(0) is the default back/fore ground colors */
+	CLR_WHITE
 } Color;
 /* Here we have stuff like CLR_ORANGE or whatever, that we have initialized in init_color, and then we	*
  * just have, before printing a monster/object, to call attron(COLOR_PAIR(obj->color)); and attroff().	*/
 
 
 typedef enum {
-	O_SWORD, O_SHIELD, O_POTION, O_WAND, O_RING, O_BODY_ARMOR, O_HELM, O_FOOD, O_SCROLL /* We are free not to implement all of them right now */
+	O_SWORD,
+	O_SHIELD,
+	O_POTION,
+	O_WAND,
+	O_RING,
+	O_BODY_ARMOR,
+	O_HELM,
+	O_FOOD,
+	O_SCROLL /* We are free not to implement all of them right now */
 } Otype; /* Object type */
 
 typedef struct Object {
@@ -60,6 +70,7 @@ typedef struct Object {
 	int shots_left; /* For wands */
 	int flags; /* Such as invisible... */
 	
+	char symbol; /* To display */
 	Color color; /* to be used with COLOR_PAIR(color) */
 	
 	struct Object *next; /* Chained list stuff */
@@ -78,17 +89,26 @@ typedef struct Monster {
 	int attack;
 	int life_points;
 	int flags; /* Such as invisible, flying ... */
+	
+	char symbol;
 	Color color; /* to be used with COLOR_PAIR(color) */
 	
 	struct Monster *next; /* Chained list stuff */
 } Monster;
 
 typedef enum {
-	T_WALL, T_CORRIDOR, T_OPEN_DOOR, T_CLOSED_DOOR, T_FLOOR, T_STAIRS
+	T_WALL,
+	T_CORRIDOR,
+	T_OPEN_DOOR,
+	T_CLOSED_DOOR,
+	T_FLOOR,
+	T_STAIRS
 } Tiletype;
 
 typedef enum {
-	C_SAMURAI, C_WARRIOR, C_ARCHER
+	C_SAMURAI,
+	C_WARRIOR,
+	C_ARCHER
 } PClass;
 
 typedef struct Player {
@@ -117,9 +137,16 @@ void create_lvl();
 
 void get_input();
 
-int pline(char *, int);
+int pline(char *);
 void display_everything();
 void display_map();
+
+void add_object(Object *);
+void add_monster(Monster *);
+void rm_mon_at(int, int, int);
+void rm_obj_at(int, int, int);
+Monster *find_mon_at(int, int, int);
+Object *find_obj_at(int, int, int);
 
 int rand_int(int, int);
 
@@ -130,5 +157,5 @@ void move_rodney(int, int);
 Tiletype lvl_map[LEVELS][21][80];
 Player rodney;
 
-void *o_list;
-void *m_list;
+Object *o_list;
+Monster *m_list;
