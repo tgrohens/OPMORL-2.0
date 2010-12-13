@@ -10,8 +10,16 @@
 #include "opmorl.h"
 
 void move_rodney(int newx, int newy) {
-	if (lvl_map[rodney.level-1][newy-1][newx] == T_WALL || lvl_map[rodney.level-1][newy][newx] == T_CLOSED_DOOR)
+	if (lvl_map[rodney.level][newy-1][newx] == T_WALL || lvl_map[rodney.level][newy-1][newx] == T_CLOSED_DOOR)
 		return;
 	rodney.posx = newx;
 	rodney.posy = newy;
+}
+
+void go_down() {
+	if (lvl_map[rodney.level][rodney.posy-1][rodney.posx] != '>') {
+	/*	pline("You can't go down here !"); */
+		return;
+	}
+	create_lvl(++rodney.level);
 }

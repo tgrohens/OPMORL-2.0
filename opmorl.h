@@ -151,6 +151,7 @@ Object *find_obj_at(int, int, int);
 int rand_int(int, int);
 
 void move_rodney(int, int);
+void go_down();
 
 /* Globals */
 

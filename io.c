@@ -24,7 +24,23 @@ void get_input() {
 		case 'l':
 			move_rodney(rodney.posx+1, rodney.posy);
 			break;
-		case 'q':
+		case 'y':
+			move_rodney(rodney.posx-1, rodney.posx-1);
+			break;
+		case 'u':
+			move_rodney(rodney.posx+1, rodney.posy-1);
+			break;
+		case 'b':
+			move_rodney(rodney.posx-1, rodney.posy+1);
+			break;
+		case 'n':
+			move_rodney(rodney.posx+1, rodney.posx+1);
+			break;
+
+		case '>':
+			go_down();
+			break;
+		case 'q': /* Need to rewrite it cleanly */
 			exit_game();
 			exit_ncurses();
 			exit(0);
@@ -33,29 +49,6 @@ void get_input() {
 	}
 }
 
-int pline(char * str) { /* CRAPPY */
-	int len = strlen(str), termLen = getmaxx(stdscr), retval;
-	if (len > termLen) {
-		char *more = "--More--";
-		int lenOk = len-1;
-		while (str[lenOk] != ' ' && len-lenOk < 8) /* Here the bug */
-			lenOk--;
-		lenOk++;
-		char *newStr = strdup(&str[lenOk]);
-		str[lenOk-1] = '\0';
-		retval = mvprintw(0, 0, strcat(str, more));
-		while (getch() != '\n');
-		retval += pline(newStr);
-		free(newStr);
-	} else {
-		char *fill = malloc(sizeof(char)*termLen+1);
-		memset(fill, ' ', termLen);
-		fill[termLen] = '\0';
-		mvprintw(0, 0, fill);
-		retval = mvprintw(0, 0, str);
-	}
-	return retval;
-}
 
 void display_everything() {
 	display_map();
@@ -69,7 +62,7 @@ void display_map() {
 	attron(COLOR_PAIR(DEFAULT));
 	for (i = 1; i < 22; i++) { /* First line is reserved */
 		for (j = 0; j < 80; j++) {
-			switch (lvl_map[rodney.level-1][i-1][j]) {
+			switch (lvl_map[rodney.level][i-1][j]) {
 				case T_CLOSED_DOOR:
 					mvaddch(i, j, '+');
 					break;

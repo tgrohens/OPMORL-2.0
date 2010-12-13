@@ -20,4 +20,5 @@ void create_lvl(int level) {
 				lvl_map[level][i][j] = T_FLOOR;
 		}
 	}
+	lvl_map[level][rand_int(1, 19)][rand_int(1, 78)] = T_STAIRS;
 }
