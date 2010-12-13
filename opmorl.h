@@ -140,6 +140,7 @@ void get_input();
 int pline(char *);
 void display_everything();
 void display_map();
+void display_stats();
 
 void add_object(Object *);
 void add_monster(Monster *);

@@ -17,8 +17,9 @@ void move_rodney(int newx, int newy) {
 }
 
 void go_down() {
-	if (lvl_map[rodney.level][rodney.posy-1][rodney.posx] != '>') {
+	if (lvl_map[rodney.level][rodney.posy-1][rodney.posx] != T_STAIRS) {
 	/*	pline("You can't go down here !"); */
+		mvprintw(0, 0, "You can't go down here !");
 		return;
 	}
 	create_lvl(++rodney.level);

@@ -25,7 +25,7 @@ void get_input() {
 			move_rodney(rodney.posx+1, rodney.posy);
 			break;
 		case 'y':
-			move_rodney(rodney.posx-1, rodney.posx-1);
+			move_rodney(rodney.posx-1, rodney.posy-1);
 			break;
 		case 'u':
 			move_rodney(rodney.posx+1, rodney.posy-1);
@@ -34,7 +34,7 @@ void get_input() {
 			move_rodney(rodney.posx-1, rodney.posy+1);
 			break;
 		case 'n':
-			move_rodney(rodney.posx+1, rodney.posx+1);
+			move_rodney(rodney.posx+1, rodney.posy+1);
 			break;
 
 		case '>':
@@ -51,8 +51,8 @@ void get_input() {
 
 
 void display_everything() {
+	display_stats(); /* The stuff like health points, level et alii */
 	display_map();
-/*	display_stats(); */ /* The stuff like health points, level et alii */
 }
 
 void display_map() {
@@ -112,4 +112,9 @@ void display_map() {
 	attroff(COLOR_PAIR(rodney.color));
 
 	move(rodney.posy, rodney.posx);
+}
+
+void display_stats() {
+	mvprintw(getmaxy(stdscr)-2, 0, "St:%d Dx:%d Co:%d In:%d Wi:%d Ch:%d", rodney.strength, rodney.dexterity, rodney.constitution, rodney.intelligence, rodney.wisdom, rodney.charisma);
+	mvprintw(getmaxy(stdscr)-1, 0, "Dlvl:%d\t$:%d\tHP:%d(%d)", rodney.level+1, rodney.gold, rodney.hp, rodney.max_hp);
 }
