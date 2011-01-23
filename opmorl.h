@@ -57,7 +57,7 @@ typedef enum {
 	O_SCROLL /* We are free not to implement all of them right now */
 } Otype; /* Object type */
 
-typedef struct Object {
+typedef struct Object{
 	Otype type;
 	
 	char name[50];
@@ -111,7 +111,7 @@ typedef enum {
 	C_ARCHER
 } PClass;
 
-typedef struct Player {
+typedef struct {
 	PClass pclass;
 	int posx, posy; /* Position */
 	int explevel, exp; /* Experience stuff */
